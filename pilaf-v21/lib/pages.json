@@ -1,0 +1,86 @@
+{
+  "account": {
+    "title": "My Account",
+    "html": "<h1>My Account</h1><p>Customer accounts will become available when the secure commerce backend is connected.</p>"
+  },
+  "products": {
+    "title": "Products",
+    "html": "<span class=\"eyebrow\">COMING SOON</span><h1>Our collection</h1><p>Explore our proposed ready-to-eat range. Packaging, recipes and availability are not final.</p><div class=\"grid\"><article class=\"tile brand-product\"><img class=\"food\" src=\"/pack-beef.svg\" alt=\"Beef Pilaf packaging concept\"><div class=\"product-copy\"><span class=\"eyebrow\">In development</span><h2>Beef Pilaf</h2><p>A classic combination of rice, carrots and beef.</p><a href=\"/beef\">Explore concept →</a></div></article><article class=\"tile brand-product\"><img class=\"food\" src=\"/pack-lamb.svg\" alt=\"Lamb Pilaf packaging concept\"><div class=\"product-copy\"><span class=\"eyebrow\">In development</span><h2>Lamb Pilaf</h2><p>Inspired by traditional Uzbek lamb pilaf.</p><a href=\"/lamb\">Explore concept →</a></div></article><article class=\"tile brand-product\"><img class=\"food\" src=\"/pack-vegetable.svg\" alt=\"Vegetable Pilaf packaging concept\"><div class=\"product-copy\"><span class=\"eyebrow\">In development</span><h2>Vegetable Pilaf</h2><p>A rice and vegetable recipe concept.</p><a href=\"/vegetable\">Explore concept →</a></div></article></div>"
+  },
+  "shop": {
+    "title": "Shop",
+    "html": "<h1>Shop</h1><p>Coming soon. Browse planned products and save your interests.</p><div class=\"grid\"><article class=\"tile\"><img class=\"food\" src=\"/beef.svg\" alt=\"Illustration of beef pilaf\"><h2>Beef Pilaf</h2><p>Rice, carrots and beef — proposed recipe.</p><a href=\"/beef\">Discover product</a></article><article class=\"tile\"><img class=\"food\" src=\"/lamb.svg\" alt=\"Illustration of lamb pilaf\"><h2>Lamb Pilaf</h2><p>Traditional lamb and rice — proposed recipe.</p><a href=\"/lamb\">Discover product</a></article><article class=\"tile\"><img class=\"food\" src=\"/vegetable.svg\" alt=\"Illustration of vegetable pilaf\"><h2>Vegetable Pilaf</h2><p>Rice and vegetables — proposed recipe.</p><a href=\"/vegetable\">Discover product</a></article></div>"
+  },
+  "vegetable": {
+    "title": "Vegetable Pilaf",
+    "html": "<h1>Vegetable Pilaf</h1><div class=\"tile\"><img class=\"food detail\" src=\"/pack-vegetable.svg\" alt=\"Packaging concept for vegetable pilaf\"><p>Rice and vegetables — proposed recipe.</p><p>Packaging, ingredients, nutrition, pricing and availability are pending confirmation.</p><label for=\"pack\">Planned pack size</label><select id=\"pack\"><option value=\"1\">Single unit</option><option value=\"6\">6 units</option><option value=\"12\">12 units</option><option value=\"24\">24 units</option></select><button data-add=\"vegetable\">Explore shop</button><small>No purchase or payment is taken.</small></div>"
+  },
+  "beef": {
+    "title": "Beef Pilaf",
+    "html": "<h1>Beef Pilaf</h1><div class=\"tile\"><img class=\"food detail\" src=\"/pack-beef.svg\" alt=\"Packaging concept for beef pilaf\"><p>Rice, carrots and beef — proposed recipe.</p><p>Packaging, ingredients, nutrition, pricing and availability are pending confirmation.</p><label for=\"pack\">Planned pack size</label><select id=\"pack\"><option value=\"1\">Single unit</option><option value=\"6\">6 units</option><option value=\"12\">12 units</option><option value=\"24\">24 units</option></select><button data-add=\"beef\">Explore shop</button><small>No purchase or payment is taken.</small></div>"
+  },
+  "cart": {
+    "title": "Cart",
+    "html": "<h1>Your interest basket</h1><p>Save your preferred products and pack sizes. This is not an order.</p><div id=\"basket\"></div><p id=\"total\" aria-live=\"polite\"></p><a class=\"btn\" href=\"/checkout\">Continue</a>"
+  },
+  "shipping": {
+    "title": "Shipping & Returns",
+    "html": "<h1>Shipping & Returns</h1><p>Shipping regions, fees and return policies will be published before sales begin.</p>"
+  },
+  "quality": {
+    "title": "Quality & Food Safety",
+    "html": "<h1>Quality & Food Safety</h1><p>Product launch is subject to applicable food safety, labeling and regulatory requirements. No certifications or approvals are claimed.</p>"
+  },
+  "about": {
+    "title": "Our Story",
+    "html": "<span class=\"eyebrow\">OUR HERITAGE</span><h1>A tradition worth sharing.</h1><section class=\"story-band\"><img src=\"/lamb.svg\" alt=\"Illustrated Uzbek pilaf\"><div><h2>Gather around the table.</h2><p>Pilaf, also known as plov, is a celebrated part of Uzbek culinary heritage. Rice, vegetables and spices come together in a dish associated with hospitality and shared meals.</p><p>THE BEST PILAF is developing a ready-to-eat collection for the US market. Our ambition is to make this tradition more accessible without claiming that products are already available.</p><a class=\"btn\" href=\"/products\">Explore our collection</a></div></section>"
+  },
+  "index": {
+    "title": "Home",
+    "html": "<section class=\"brand-hero\"><div><span class=\"eyebrow\">UZBEK CULINARY HERITAGE · COMING SOON</span><h1>From Uzbekistan.<br>To your table.</h1><p>A timeless tradition, reimagined for the modern pantry. Discover our planned collection of ready-to-eat Uzbek pilaf.</p><a class=\"btn\" href=\"/products\">Explore the collection</a> <a class=\"hero-link\" href=\"/wholesale\">Become a partner →</a></div><img src=\"/beef.svg\" alt=\"Illustration of traditional pilaf served on a patterned plate\"></section><div class=\"brand-strip\">ROOTED IN TRADITION <span>✦</span> MADE FOR MODERN LIFE <span>✦</span> US MARKET IN DEVELOPMENT</div><section class=\"brand-section\"><span class=\"eyebrow\">THE COLLECTION</span><h2>Three ways to discover pilaf.</h2><div class=\"grid\"><article class=\"tile brand-product\"><img class=\"food\" src=\"/pack-beef.svg\" alt=\"Beef Pilaf packaging concept\"><div class=\"product-copy\"><span class=\"eyebrow\">In development</span><h2>Beef Pilaf</h2><p>A classic combination of rice, carrots and beef.</p><a href=\"/beef\">Explore concept →</a></div></article><article class=\"tile brand-product\"><img class=\"food\" src=\"/pack-lamb.svg\" alt=\"Lamb Pilaf packaging concept\"><div class=\"product-copy\"><span class=\"eyebrow\">In development</span><h2>Lamb Pilaf</h2><p>Inspired by traditional Uzbek lamb pilaf.</p><a href=\"/lamb\">Explore concept →</a></div></article><article class=\"tile brand-product\"><img class=\"food\" src=\"/pack-vegetable.svg\" alt=\"Vegetable Pilaf packaging concept\"><div class=\"product-copy\"><span class=\"eyebrow\">In development</span><h2>Vegetable Pilaf</h2><p>A rice and vegetable recipe concept.</p><a href=\"/vegetable\">Explore concept →</a></div></article></div></section><section class=\"story-band\"><img src=\"/lamb.svg\" alt=\"Illustration of lamb pilaf\"><div><span class=\"eyebrow\">OUR STORY</span><h2>More than a meal.</h2><p>In Uzbekistan, pilaf brings people together around a shared table. Our ambition is to share that culinary heritage with households across America.</p><a href=\"/about\">Discover our story →</a></div></section><section class=\"partner-band\"><span class=\"eyebrow\">FOR RETAILERS & DISTRIBUTORS</span><h2>Let's bring pilaf to more tables.</h2><p>We welcome early conversations with grocery retailers, specialty food stores and distribution partners.</p><a class=\"btn\" href=\"/wholesale\">Wholesale inquiries</a> <a class=\"btn\" href=\"/distributors\">Distribution partnerships</a></section>"
+  },
+  "distributors": {
+    "title": "Distributors",
+    "html": "<h1>Distributors</h1><p>We welcome future distribution partnerships across the United States. Territory and supply arrangements are pending.</p>"
+  },
+  "blog": {
+    "title": "Recipes & Blog",
+    "html": "<h1>Recipes & Blog</h1><p>Explore the culinary heritage of Uzbek pilaf. More articles coming soon.</p>"
+  },
+  "lamb": {
+    "title": "Lamb Pilaf",
+    "html": "<h1>Lamb Pilaf</h1><div class=\"tile\"><img class=\"food detail\" src=\"/pack-lamb.svg\" alt=\"Packaging concept for lamb pilaf\"><p>Traditional lamb and rice — proposed recipe.</p><p>Packaging, ingredients, nutrition, pricing and availability are pending confirmation.</p><label for=\"pack\">Planned pack size</label><select id=\"pack\"><option value=\"1\">Single unit</option><option value=\"6\">6 units</option><option value=\"12\">12 units</option><option value=\"24\">24 units</option></select><button data-add=\"lamb\">Explore shop</button><small>No purchase or payment is taken.</small></div>"
+  },
+  "privacy": {
+    "title": "Privacy",
+    "html": "<h1>Privacy</h1><p>This preview stores only your interest basket locally in your browser. A production privacy policy is required before collecting customer information.</p>"
+  },
+  "terms": {
+    "title": "Terms & Conditions",
+    "html": "<h1>Terms & Conditions</h1><p>This pre-launch site does not accept orders or payments. Commercial terms will be published before launch.</p>"
+  },
+  "tracking": {
+    "title": "Order Tracking",
+    "html": "<h1>Order Tracking</h1><p>Order tracking will become available after online sales launch.</p>"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "html": "<h1>Checkout</h1><p>Online ordering is not yet available. No payment or personal data is collected.</p><a href=\"/shop\">Return to shop</a>"
+  },
+  "manufacturing": {
+    "title": "Manufacturing",
+    "html": "<h1>Manufacturing</h1><p>Production location and manufacturing details will be announced after confirmation.</p>"
+  },
+  "wholesale": {
+    "title": "Wholesale",
+    "html": "<h1>Wholesale</h1><p>We are developing a ready-to-eat pilaf collection for retailers, grocery stores and food service partners. Wholesale terms and case sizes will be announced.</p>"
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "html": "<h1>Frequently Asked Questions</h1><p>When can I order? Availability will be announced. Are ingredients finalized? Product specifications are still pending.</p>"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "html": "<h1>Contact Us</h1><p>Business contact details will be published when confirmed.</p>"
+  }
+}

@@ -1,0 +1,4 @@
+BEGIN;
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS checkout_key uuid UNIQUE;
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS checkout_url text;
+COMMIT;

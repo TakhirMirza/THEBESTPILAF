@@ -1,0 +1,9 @@
+BEGIN;
+CREATE TABLE suppliers(id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,name text NOT NULL,contact text NOT NULL DEFAULT '');
+CREATE TABLE materials(id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,name text NOT NULL,unit text NOT NULL CHECK(unit IN ('kg','l','unit')));
+CREATE TABLE material_lots(id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,material_id bigint NOT NULL REFERENCES materials,supplier_id bigint NOT NULL REFERENCES suppliers,lot_code text NOT NULL,received_qty numeric(14,3) NOT NULL CHECK(received_qty>0),remaining_qty numeric(14,3) NOT NULL CHECK(remaining_qty>=0 AND remaining_qty<=received_qty),cost_cents bigint NOT NULL CHECK(cost_cents>=0),expires_on date,UNIQUE(supplier_id,material_id,lot_code));
+CREATE TABLE recipes(id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,product_id bigint NOT NULL REFERENCES products,version text NOT NULL,notes text NOT NULL,UNIQUE(product_id,version));
+CREATE TABLE production_batches(id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,recipe_id bigint NOT NULL REFERENCES recipes,lot_code text UNIQUE NOT NULL,produced_on date NOT NULL,expires_on date NOT NULL CHECK(expires_on>produced_on),units integer NOT NULL CHECK(units>0),status text NOT NULL DEFAULT 'hold' CHECK(status IN ('hold','reviewed','recalled')),created_at timestamptz NOT NULL DEFAULT now());
+CREATE TABLE batch_inputs(batch_id bigint REFERENCES production_batches,material_lot_id bigint REFERENCES material_lots,quantity numeric(14,3) NOT NULL CHECK(quantity>0),cost_cents numeric(18,2) NOT NULL CHECK(cost_cents>=0),PRIMARY KEY(batch_id,material_lot_id));
+CREATE TABLE batch_events(id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,batch_id bigint NOT NULL REFERENCES production_batches,event_type text NOT NULL CHECK(event_type IN ('quality_review','recall')),notes text NOT NULL,created_at timestamptz NOT NULL DEFAULT now());
+COMMIT;

@@ -1,0 +1,6 @@
+import pg from 'pg';
+import {SESv2Client,SendEmailCommand} from '@aws-sdk/client-sesv2';
+if(process.env.EMAIL_ENABLED!=='true'||!process.env.EMAIL_FROM||!process.env.DATABASE_URL)throw Error('Email worker disabled or not configured');
+const pool=new pg.Pool({connectionString:process.env.DATABASE_URL});
+const ses=new SESv2Client({maxAttempts:1});
+try{for(let i=0;i<50;i++){const c=await pool.connect();try{await c.query('BEGIN');const row=(await c.query('SELECT * FROM email_outbox WHERE sent_at IS NULL AND failed_at IS NULL AND next_attempt<=now() ORDER BY id LIMIT 1 FOR UPDATE SKIP LOCKED')).rows[0];if(!row){await c.query('COMMIT');break;}try{await ses.send(new SendEmailCommand({FromEmailAddress:process.env.EMAIL_FROM,Destination:{ToAddresses:[row.recipient]},Content:{Simple:{Subject:{Data:row.subject},Body:{Text:{Data:row.body}}}}}),{abortSignal:AbortSignal.timeout(15000)});await c.query("UPDATE email_outbox SET sent_at=now(),body='' WHERE id=$1",[row.id]);}catch{await c.query("UPDATE email_outbox SET attempts=attempts+1,next_attempt=now()+interval '5 minutes' * power(2,least(attempts,6)),failed_at=CASE WHEN attempts>=5 THEN now() END,body=CASE WHEN attempts>=5 THEN '' ELSE body END WHERE id=$1",[row.id]);}await c.query('COMMIT');}catch(e){await c.query('ROLLBACK');throw e;}finally{c.release();}}}finally{await pool.end();ses.destroy();}

@@ -1,0 +1,4 @@
+BEGIN;
+ALTER TABLE wholesale_inquiries ADD COLUMN category text NOT NULL DEFAULT 'other' CHECK(category IN ('supermarket','grocery','restaurant','distributor','other')), ADD COLUMN contact_name text, ADD COLUMN estimated_units integer CHECK(estimated_units>0), ADD COLUMN status text NOT NULL DEFAULT 'new' CHECK(status IN ('new','reviewing','quoted','accepted','declined')), ADD COLUMN updated_at timestamptz NOT NULL DEFAULT now();
+CREATE TABLE wholesale_quotes(id uuid PRIMARY KEY DEFAULT gen_random_uuid(), inquiry_id uuid NOT NULL REFERENCES wholesale_inquiries(id), sku_id bigint NOT NULL REFERENCES skus(id), quantity integer NOT NULL CHECK(quantity>0), unit_price_cents integer NOT NULL CHECK(unit_price_cents>0), valid_until date NOT NULL, created_at timestamptz NOT NULL DEFAULT now());
+COMMIT;

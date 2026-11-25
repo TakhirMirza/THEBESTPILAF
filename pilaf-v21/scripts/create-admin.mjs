@@ -1,0 +1,4 @@
+import pg from 'pg';import {randomBytes,scryptSync} from 'node:crypto';
+const [username,role='owner']=process.argv.slice(2);const password=process.env.NEW_ADMIN_PASSWORD;
+if(!/^[a-z0-9_.-]{1,64}$/.test(username||'')||!['owner','shipping','manufacturing','wholesale','finance'].includes(role)||!password||password.length<24||password.length>128||!/^[\x21-\x7e]+$/.test(password))throw Error('Provide username, role and NEW_ADMIN_PASSWORD (24–128 ASCII characters)');
+const salt=randomBytes(16).toString('hex');const pool=new pg.Pool({connectionString:process.env.DATABASE_URL});try{await pool.query('INSERT INTO admin_accounts(username,password_hash,role) VALUES($1,$2,$3)',[username,salt+':'+scryptSync(password,salt,64).toString('hex'),role]);console.log('Administrator created');}finally{await pool.end();}

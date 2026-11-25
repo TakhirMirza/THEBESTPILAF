@@ -1,0 +1,44 @@
+name: Validate
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: pilaf
+          POSTGRES_PASSWORD: ci-only-password
+          POSTGRES_DB: pilaf
+        ports: ['5432:5432']
+        options: --health-cmd 'pg_isready -U pilaf -d pilaf' --health-interval 5s --health-timeout 3s --health-retries 20
+    env:
+      DATABASE_URL: postgresql://pilaf:ci-only-password@127.0.0.1:5432/pilaf
+      APP_ORIGIN: http://localhost:3000
+      ACCOUNTS_ENABLED: 'false'
+      TEST_CHECKOUT_ENABLED: 'false'
+      WHOLESALE_ENABLED: 'false'
+      EMAIL_ENABLED: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-audit --no-fund
+      - run: npm test
+      - run: npm run migrate && npm run migrate && npm run db:verify
+      - run: npm run build && npm run typecheck
+      - name: Running application smoke tests
+        run: |
+          npm start > server.log 2>&1 &
+          pid=$!
+          trap 'kill "$pid" || true; cat server.log' EXIT
+          for i in $(seq 1 60); do
+            if curl -fsS http://localhost:3000/api/health; then break; fi
+            sleep 2
+          done
+          npm run smoke
+          npm run release:check
+      - run: npm audit --omit=dev --audit-level=high

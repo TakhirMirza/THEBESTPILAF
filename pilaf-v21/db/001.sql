@@ -1,0 +1,10 @@
+BEGIN;
+CREATE TABLE products(id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,slug text UNIQUE NOT NULL,name text NOT NULL,description text NOT NULL,published boolean NOT NULL DEFAULT false);
+CREATE TABLE skus(id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,product_id bigint NOT NULL REFERENCES products(id),pack_size integer NOT NULL CHECK(pack_size IN(1,6,12,24)),price_cents integer CHECK(price_cents>0),currency text NOT NULL DEFAULT 'USD' CHECK(currency='USD'),stock integer NOT NULL DEFAULT 0 CHECK(stock>=0),published boolean NOT NULL DEFAULT false,UNIQUE(product_id,pack_size));
+CREATE TABLE customers(id uuid PRIMARY KEY DEFAULT gen_random_uuid(),email text NOT NULL UNIQUE,created_at timestamptz NOT NULL DEFAULT now());
+CREATE TABLE orders(id uuid PRIMARY KEY DEFAULT gen_random_uuid(),customer_id uuid REFERENCES customers(id),status text NOT NULL DEFAULT 'pending' CHECK(status IN('pending','paid','shipped','cancelled','refunded')),subtotal_cents bigint NOT NULL CHECK(subtotal_cents>=0),shipping_cents bigint NOT NULL DEFAULT 0 CHECK(shipping_cents>=0),tax_cents bigint NOT NULL DEFAULT 0 CHECK(tax_cents>=0),payment_reference text UNIQUE,created_at timestamptz NOT NULL DEFAULT now());
+CREATE TABLE order_items(order_id uuid REFERENCES orders(id),sku_id bigint REFERENCES skus(id),quantity integer NOT NULL CHECK(quantity>0),unit_price_cents integer NOT NULL CHECK(unit_price_cents>0),PRIMARY KEY(order_id,sku_id));
+CREATE TABLE wholesale_inquiries(id uuid PRIMARY KEY DEFAULT gen_random_uuid(),company text NOT NULL,email text NOT NULL,message text NOT NULL,created_at timestamptz NOT NULL DEFAULT now());
+INSERT INTO products(slug,name,description,published) VALUES ('beef','Beef Pilaf','Proposed recipe',true),('lamb','Lamb Pilaf','Proposed recipe',true),('vegetable','Vegetable Pilaf','Proposed recipe',true);
+INSERT INTO skus(product_id,pack_size,published) SELECT id,n,true FROM products CROSS JOIN unnest(ARRAY[1,6,12,24]) n;
+COMMIT;

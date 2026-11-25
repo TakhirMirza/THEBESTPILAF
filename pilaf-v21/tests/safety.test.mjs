@@ -1,0 +1,15 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';
+const read=p=>readFileSync(p,'utf8');
+test('sales and registration disabled in example',()=>{for(const k of ['TEST_CHECKOUT_ENABLED','ACCOUNTS_ENABLED','WHOLESALE_ENABLED'])assert.match(read('.env.example'),new RegExp('^'+k+'=false$','m'));});
+test('payment production gate retained',()=>assert.match(read('lib/payment.ts'),/NODE_ENV!=='production'/));
+test('container runs as nonroot',()=>assert.match(read('Dockerfile'),/^USER node$/m));
+test('origin guard excludes signed webhook',()=>assert.match(read('middleware.ts'),/path!='\/api\/stripe\/webhook'/));
+test('individual admin accounts and audit migration',()=>{assert.match(read('db/009.sql'),/CREATE TABLE admin_accounts/);assert.match(read('lib/admin.ts'),/INSERT INTO admin_audit/);assert.doesNotMatch(read('lib/admin.ts'),/ADMIN_PASSWORD/);});
+test('customer rate gate present',()=>assert.match(read('app/api/account/route.ts'),/allowAttempt\('customer-email'/));
+test('control center is owner restricted and no-store',()=>{assert.match(read('app/api/admin/control/route.ts'),/authorized\(req,'owner'\)/);assert.match(read('app/api/admin/control/route.ts'),/no-store/);});
+test('recall notices are transition gated and deduplicated',()=>{const sql=read('db/012.sql');assert.match(sql,/OLD.status IS DISTINCT FROM NEW.status/);assert.match(sql,/ON CONFLICT\(dedupe_key\) DO NOTHING/);assert.match(sql,/recall_affected_orders/);});
+test('compose uses a single migration authority',()=>{assert.doesNotMatch(read('compose.yaml'),/docker-entrypoint-initdb.d/);assert.match(read('compose.yaml'),/pg_isready/);});
+test('CI exercises migrations and running app',()=>{const ci=read('.github/workflows/ci.yml');for(const s of ['postgres:16','npm run migrate && npm run migrate','npm run db:verify','npm run smoke'])assert.ok(ci.includes(s));});
+test('staging infrastructure is private and commerce disabled',()=>{const t=JSON.parse(read('deploy/terraform/main.tf.json'));const r=t.resource;assert.equal(r.aws_db_instance.main.publicly_accessible,false);assert.equal(r.aws_db_instance.main.storage_encrypted,true);assert.equal(t.variable.enable_service.default,false);assert.equal(r.aws_ecs_service.web.network_configuration.assign_public_ip,false);const c=JSON.parse(r.aws_ecs_task_definition.web.container_definitions)[0];for(const k of ['ACCOUNTS_ENABLED','TEST_CHECKOUT_ENABLED','WHOLESALE_ENABLED','EMAIL_ENABLED'])assert.equal(c.environment.find(x=>x.name===k).value,'false');});
+test('release gate checks disabled commerce and anonymous admin access',()=>{const s=read('scripts/release-check.mjs');for(const p of ['/api/orders','/api/account/security','/api/admin/control','/api/stripe/webhook'])assert.ok(s.includes(p));assert.match(read('.github/workflows/ci.yml'),/npm run release:check/);});
+test('Terraform workflow validates without applying',()=>{const s=read('.github/workflows/terraform.yml');assert.match(s,/terraform validate/);assert.doesNotMatch(s,/terraform apply/);});
