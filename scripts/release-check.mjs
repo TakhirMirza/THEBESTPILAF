@@ -7,7 +7,8 @@ async function check(path,status,options={},validate=()=>{}){
  assert.equal(r.status,status,path);await validate(r);console.log('PASS',options.method||'GET',path,status);
 }
 const post={method:'POST',headers:{origin,'content-type':'application/json'},body:'{}'};
-for(const path of ['/api/admin','/api/admin/control','/api/admin/audit','/api/admin/finance','/api/admin/manufacturing','/api/admin/shipping','/api/admin/wholesale'])await check(path,401,{},r=>assert.match(r.headers.get('cache-control')||'',/no-store/));
+for(const path of ['/api/admin','/api/admin/control','/api/admin/audit','/api/admin/finance','/api/admin/manufacturing','/api/admin/wholesale'])await check(path,401,{},r=>assert.match(r.headers.get('cache-control')||'',/no-store/));
+await check('/api/admin/shipping',401,post,r=>assert.match(r.headers.get('cache-control')||'',/no-store/));
 for(const path of ['/api/orders','/api/account','/api/account/security','/api/wholesale'])await check(path,503,post);
 await check('/api/orders',403,{...post,headers:{...post.headers,origin:'https://invalid.example'}});
 await check('/api/stripe/webhook',503,{method:'POST',body:'{}'});
