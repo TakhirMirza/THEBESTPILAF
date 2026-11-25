@@ -2,3 +2,12 @@ node_modules/
 .next/
 .env
 .env.local
+
+# Terraform local files
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.tfvars
+*.tfvars.json
+crash.log
