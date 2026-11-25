@@ -16,11 +16,11 @@
     "release:check": "node scripts/release-check.mjs"
   },
   "dependencies": {
+    "@aws-sdk/client-sesv2": "^3.900.0",
     "next": "^15.5.0",
     "pg": "^8.16.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "@aws-sdk/client-sesv2": "^3.900.0"
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
@@ -28,5 +28,8 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "typescript": "^5.8.0"
+  },
+  "overrides": {
+    "postcss": ">8.5.22"
   }
 }
